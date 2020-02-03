@@ -1,10 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+
 import App from './App';
+import { api } from '_api';
+import { api_config } from 'config.js';
+
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// console.log('api_config:', api_config);
+// console.log(config.api_url);
+api.init(api_config);
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

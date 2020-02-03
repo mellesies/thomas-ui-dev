@@ -1,0 +1,28 @@
+.Network {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+    overflow: auto;
+
+    background-color: #336699;
+
+    .Toolbar {
+        padding: 4px;
+        border: 1px solid #afafaf;
+        background-color: #efefef;
+
+        h1 {
+            // font-weight: bold;
+            // font-size: 1.5em;
+            margin: 0px;
+        }
+    }
+
+    .KonvaContainer {
+        flex: 1;
+        overflow: auto;
+        // background-color: yellow;
+    }
+}
+
