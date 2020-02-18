@@ -8,7 +8,7 @@ export default class Footer extends Component {
     render() {
         return (
             <div className="Footer">
-                Footer
+                Copyright © 2020 Melle Sieswerda. All rights reserved.
             </div>
         );
     }
