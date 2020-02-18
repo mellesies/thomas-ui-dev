@@ -54,13 +54,11 @@ export default class Node extends Component {
             this.props.onDragEnd(this.RV, x, y);
         }
     }
-    onStateSelected = (state) => {
-        // console.log(`onStateSelected('${state}')`);
-
-        if (this.props.onStateSelected) {
-            this.props.onStateSelected(this.RV, state)
+    onStateToggled = (state) => {
+        // console.log(`onStateToggled('${state}')`);
+        if (this.props.onStateToggled) {
+            this.props.onStateToggled(this.RV, state)
         }
-
     }
 
     /**
@@ -100,7 +98,7 @@ export default class Node extends Component {
                 <Group
                     key={state}
                     y={y}
-                    onDblClick={e => this.onStateSelected(state)}
+                    onDblClick={e => this.onStateToggled(state)}
                     >
 
                     <Label>

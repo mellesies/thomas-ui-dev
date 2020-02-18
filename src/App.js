@@ -5,11 +5,15 @@ import Footer from 'footer';
 import Network from 'network';
 import { api } from '_api';
 
-import './App.css';
+import './App.scss';
 
 
+function Comment(props) {
+    // console.log(props.children);
+    return null;
+}
 
-// <Stage width={window.innerWidth} height={window.innerHeight}>
+
 export default class App extends Component {
 
     constructor(props) {
@@ -21,23 +25,33 @@ export default class App extends Component {
         }
     }
 
-    onNetworkSelected = (id) => {
-        console.log(`network ${id} selected!`);
-        this.setNetwork(id);
+
+    /**
+     * Triggered when dropdown list in Header changes.
+     */
+    onNetworkSelected = (network_id) => {
+        console.log(`network ${network_id} selected!`);
+        this.setNetwork(network_id);
     }
 
-    setNetwork(id) {
-        // console.log(`App::setNetwork(${id})`);
-        id = parseInt(id);
+    /**
+     * Update state.
+     *
+     * TODO:
+     *   - use URL for network_id state
+     *   - move logic for retrieving network details to Network
+     */
+    setNetwork(network_id) {
+        network_id = parseInt(network_id);
 
         var network;
-        const network_id = id;
 
         for (var i=0; i < this.state.networks.length; i++) {
-            if (this.state.networks[i].id === id) {
+            if (this.state.networks[i].id === network_id) {
                 network = this.state.networks[i].json;
-                // FIXME: This feels like a hack ...
-                network.id = id;
+
+                // FIXME: This feels like a hack.
+                network.id = network_id;
                 break;
             }
         }
@@ -48,6 +62,12 @@ export default class App extends Component {
         })
     }
 
+    /**
+     * Called once after the component is created and has been attached to the
+     * DOM.
+     *
+     * Retrieves BNs from the server and updates state when complete.
+     */
     componentDidMount() {
         api.getNetworks().then(networks => {
             if (networks.length > 0) {
@@ -70,6 +90,8 @@ export default class App extends Component {
 
         return (
             <div className="App">
+                <Comment>Header that displays </Comment>
+
                 <Header
                     networks={networks}
                     onNetworkSelected={this.onNetworkSelected}

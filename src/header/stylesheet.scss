@@ -1,6 +1,27 @@
 .Header {
-    // border: 1px solid blue;
     background-color: #efefef;
-
     padding: 4px;
+    border-bottom: 1px solid #555;
+
+
+    .h1 {
+        font-size: 2em;
+    }
+
+    .top {
+        display: flex;
+        align-items: flex-end;
+
+
+        .left {
+            flex: 1;
+            // background-color: purple;
+        }
+
+        .right {
+            // background-color: yellow;
+            padding-right: 4px;
+        }
+    }
+
 }

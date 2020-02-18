@@ -225,11 +225,17 @@ export default class Network extends Component {
         })
     }
 
+    /**
+     * Triggered by Node for each update to its position.
+     */
     onNodeMove = (RV, x, y) => {
         // console.log('Network::onNodeMove()', RV);
         this.nodeAttrsToState();
     }
 
+    /**
+     * Triggered by Node after dragging has stopped.
+     */
     onNodeMoved = (RV, x, y) => {
         // console.log(`Network::onNodeMoved('${RV}', ${x}, ${y})`);
         const network = { ...this.props.network };
@@ -242,18 +248,17 @@ export default class Network extends Component {
             }
         }
 
+        // Save the network.
         api.saveNetwork(network_id, network);
     }
 
-    onStateClicked = (RV, state) => {
-        // console.log(`onStateClicked('${RV}', '${state}')`);
+    onStateToggled = (RV, state) => {
+        // console.log(`onStateToggled('${RV}', '${state}')`);
         const q = { ...this.state.query };
 
         if (q[RV] && q[RV] === state) {
-            // console.log('  unsetting state');
             delete q[RV];
         } else {
-            // console.log('  setting state');
             q[RV] = state;
         }
 
@@ -284,7 +289,7 @@ export default class Network extends Component {
 
         return (
             <div className="Network">
-                <Toolbar network={network} />
+                {/*<Toolbar network={network} />*/}
 
                 <div className="KonvaContainer">
                     <Stage width={2042} height={1024}>
@@ -304,7 +309,7 @@ export default class Network extends Component {
                                         probabilities={probabilities[RV]}
                                         onDragMove={this.onNodeMove}
                                         onDragEnd={this.onNodeMoved}
-                                        onStateSelected={this.onStateClicked}
+                                        onStateToggled={this.onStateToggled}
                                         />
                                 )
                             })}

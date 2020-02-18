@@ -20,6 +20,19 @@ export default class Header extends Component {
     render() {
         return (
             <div className="Header">
+                <div className="top">
+                    <div className="left">
+                        <span className="h1">Thomas</span>
+                        &nbsp; A Bayesian Network viewer.
+                    </div>
+
+                    <div className="right">
+                        <a href="https://github.com/mellesies/thomas-app">
+                            Github
+                        </a>
+                    </div>
+                </div>
+
                 <select onChange={this.onChange}>
                     { this.renderOptions() }
                 </select>
