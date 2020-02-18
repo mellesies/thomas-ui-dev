@@ -1,6 +1,8 @@
 # Thomas
 Thomas (yes, I know it's not a very ~~clever~~original name) is an application lets you view and interact with Bayesian Networks. It consists of a client (which runs in the browser) and a server. This repository contains the source code for the client and should only be used for development purposes.
 
+![img](img/screenshot.png)
+
 ## How to use this repository
 First, make sure the server is running (see [thomas-app](https://github.com/mellesies/thomas-app) for details.
 
