@@ -1,5 +1,5 @@
 # Thomas
-Thomas (yes, I know it's not a very ~~clever~~original name) is an application lets you view and interact with Bayesian Networks. It consists of a client (which runs in the browser) and a server. This repository contains the source code for the client and should only be used for development purposes.
+Thomas (yes, I know it's not a very original name) is an application lets you view and interact with Bayesian Networks. It consists of a client (which runs in the browser) and a server. This repository contains the source code for the client and should only be used for development purposes.
 
 ![img](img/screenshot.png)
 
