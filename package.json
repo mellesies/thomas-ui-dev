@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/static",
   "dependencies": {
     "axios": "^0.19.1",
     "konva": "^4.0.16",
