@@ -18,6 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "rm -rf ../thomas-server/thomas/server/static/*; cp -a ./build/* ../thomas-server/thomas/server/static",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

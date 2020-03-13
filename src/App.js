@@ -25,13 +25,23 @@ export default class App extends Component {
         }
     }
 
-
     /**
      * Triggered when dropdown list in Header changes.
      */
     onNetworkSelected = (network_id) => {
         console.log(`network ${network_id} selected!`);
-        this.setNetwork(network_id);
+
+        api.getNetwork(network_id).then((response) => {
+            var network = response.json;
+            network.id = network_id;
+
+            this.setState({
+                network_id,
+                network,
+            })
+        })
+
+        // this.setNetwork(network_id);
     }
 
     /**
@@ -41,6 +51,7 @@ export default class App extends Component {
      *   - use URL for network_id state
      *   - move logic for retrieving network details to Network
      */
+     /*
     setNetwork(network_id) {
         network_id = parseInt(network_id);
 
@@ -61,6 +72,7 @@ export default class App extends Component {
             network,
         })
     }
+    */
 
     /**
      * Called once after the component is created and has been attached to the
@@ -73,7 +85,8 @@ export default class App extends Component {
             if (networks.length > 0) {
                 this.setState(
                     { networks },
-                    () => this.setNetwork(networks[0].id)
+                    () => this.onNetworkSelected(networks[0].id)
+                    // () => this.setNetwork(networks[0].id)
                 );
             }
         });

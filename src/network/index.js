@@ -10,14 +10,6 @@ import { api } from '_api';
 import './stylesheet.scss';
 
 
-function Toolbar(props) {
-    return (
-        <div className="Toolbar">
-            <h1>{props.network.name}</h1>
-        </div>
-    )
-}
-
 function Edge({src, dst}) {
     return (
         <Arrow
@@ -204,27 +196,6 @@ export default class Network extends Component {
         }
     }
 
-    renderEdges() {
-        const { network } = this.props;
-
-        return network.edges.map(e => {
-            const
-                srcRV = e[0],
-                dstRV = e[1];
-
-            const {src, dst} = this.computeEdge(srcRV, dstRV);
-
-            // console.log('Creating Edge: src:', src, 'dst:', dst);
-            return (
-                <Edge
-                    key={`${srcRV}_${dstRV}`}
-                    src={src}
-                    dst={dst}
-                    />
-            )
-        })
-    }
-
     /**
      * Triggered by Node for each update to its position.
      */
@@ -263,6 +234,27 @@ export default class Network extends Component {
         }
 
         this.query(q);
+    }
+
+    renderEdges() {
+        const { network } = this.props;
+
+        return network.edges.map(e => {
+            const
+                srcRV = e[0],
+                dstRV = e[1];
+
+            const {src, dst} = this.computeEdge(srcRV, dstRV);
+
+            // console.log('Creating Edge: src:', src, 'dst:', dst);
+            return (
+                <Edge
+                    key={`${srcRV}_${dstRV}`}
+                    src={src}
+                    dst={dst}
+                    />
+            )
+        })
     }
 
     render() {

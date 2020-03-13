@@ -54,6 +54,7 @@ export default class Node extends Component {
             this.props.onDragEnd(this.RV, x, y);
         }
     }
+
     onStateToggled = (state) => {
         // console.log(`onStateToggled('${state}')`);
         if (this.props.onStateToggled) {
