@@ -40,39 +40,7 @@ export default class App extends Component {
                 network,
             })
         })
-
-        // this.setNetwork(network_id);
     }
-
-    /**
-     * Update state.
-     *
-     * TODO:
-     *   - use URL for network_id state
-     *   - move logic for retrieving network details to Network
-     */
-     /*
-    setNetwork(network_id) {
-        network_id = parseInt(network_id);
-
-        var network;
-
-        for (var i=0; i < this.state.networks.length; i++) {
-            if (this.state.networks[i].id === network_id) {
-                network = this.state.networks[i].json;
-
-                // FIXME: This feels like a hack.
-                network.id = network_id;
-                break;
-            }
-        }
-
-        this.setState({
-            network_id,
-            network,
-        })
-    }
-    */
 
     /**
      * Called once after the component is created and has been attached to the
@@ -82,11 +50,12 @@ export default class App extends Component {
      */
     componentDidMount() {
         api.getNetworks().then(networks => {
+            console.log('App.componentDidMount(): ', networks);
+
             if (networks.length > 0) {
                 this.setState(
                     { networks },
                     () => this.onNetworkSelected(networks[0].id)
-                    // () => this.setNetwork(networks[0].id)
                 );
             }
         });
