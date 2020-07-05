@@ -20,7 +20,10 @@ class Api {
      */
     init(config) {
         // Setup axios to use JWT and automatically refresh if necessary.
-        this._config = config;
+        this._config = {
+            withCredentials: true,
+            ...config
+        };
         this._axios = axios.create(config);
 
         this._axios.interceptors.request.use(request => {
@@ -66,6 +69,14 @@ class Api {
         });
     }
 
+    getSession() {
+        return this._request({
+            url: '/session',
+            method: 'GET',
+            withCredentials: true,
+        });
+    }
+
     getNetworks() {
         console.log('Api::getNetworks()', );
 
@@ -79,6 +90,7 @@ class Api {
         return this._request({
             url: `/network/${id}`,
             method: 'GET',
+            // params: {summary: false}
         });
     }
 

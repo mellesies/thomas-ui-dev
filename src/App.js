@@ -21,6 +21,7 @@ export default class App extends Component {
 
         this.state = {
             networks: [],
+            network_id: null,
             network: null,
         }
     }
@@ -32,6 +33,8 @@ export default class App extends Component {
         console.log(`network ${network_id} selected!`);
 
         api.getNetwork(network_id).then((response) => {
+            console.log('onNetworkSelected - ', response);
+
             var network = response.json;
             network.id = network_id;
 
@@ -59,6 +62,10 @@ export default class App extends Component {
                 );
             }
         });
+
+        api.getSession().then(response => {
+            console.log(' -- getSession:', response)
+        })
     }
 
     render() {
