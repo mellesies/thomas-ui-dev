@@ -9,9 +9,11 @@
     "konva": "^4.0.16",
     "math.js": "^1.1.45",
     "node-sass": "^4.14.1",
+    "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-konva": "^16.10.1-0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
     "string-format": "^2.0.0",
     "typescript": "^3.7.5"

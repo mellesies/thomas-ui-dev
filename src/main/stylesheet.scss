@@ -1,0 +1,47 @@
+.Main {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+    overflow: auto;
+
+    background-color: #7A8999;
+
+    h2 {
+        margin: 2px;
+    }
+
+    .centered {
+        display: flex;
+        flex-direction: column;
+
+        flex: 1;
+        justify-content: center;;
+
+        div {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            justify-content: center;;
+        }
+    }
+
+    .block {
+        padding: 20px;
+        margin: 10px;
+        border: 1px solid #19334D;
+        background-color: #336699;
+
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        filter: drop-shadow(5px 5px 3px #00000044);
+        border-radius: 5px;
+    }
+
+    .block:hover {
+        background-color: #657F99;
+    }
+}
+

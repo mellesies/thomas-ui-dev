@@ -4,7 +4,11 @@ import {
     Arrow,
 } from 'react-konva';
 
+import qs from 'qs';
+
 import Node from './node';
+
+import { arrayToDict } from '../util';
 import { api } from '_api';
 
 import './stylesheet.scss';
@@ -110,6 +114,7 @@ export default class Network extends Component {
         super(props);
 
         this.state = {
+            network: null,
             first_pass_complete: false,
             node_centers: {},
             node_corners: {},
@@ -120,16 +125,75 @@ export default class Network extends Component {
         this.myRefs = {};
     }
 
+    componentWillUnmount() {
+        // Stop listening for route changes.
+        this.unlisten();
+    }
+
     componentDidMount() {
-        // When componentDidMount gets calleed, this.myRefs is set and each
-        // ref.current points to a <Node>
-        this.nodeAttrsToState();
-        this.query({});
+        // Listen for backbutton clicks
+        this.unlisten = this.props.history.listen((location, action) => {
+            console.log("on route change");
+            this.updateFromQueryParameters();
+        });
+
+        // This will trigger downloading the network JSON.
+        this.setNetwork();
+    }
+
+    componentDidUpdate() {
+        // console.log("*** NETWORK DID UPDATE! ***")
+        const { network, first_pass_complete } = this.state;
+
+        if (network && !first_pass_complete) {
+            // this.myRefs is set and each ref.current points to a <Node>.
+            // Triggers setState().
+            this.nodeAttrsToState();
+
+            // Update this.state.query from the URL
+            // Triggers setState().
+            this.updateFromQueryParameters();
+        }
+    }
+
+    updateFromQueryParameters() {
+        // Parse the URL to determine query parameters.
+        var q = qs.parse(
+            this.props.location.search,
+            { ignoreQueryPrefix: true }
+        );
+
+        // Only keep those entries in 'q' that correspond to a valid state.
+        const { network } = this.state;
+        const nodes = arrayToDict(network.nodes, 'RV');
+        const query = {};
+
+        for (const [RV, node] of Object.entries(nodes)) {
+            // console.log(`${RV}:`, node);
+            if (q[RV] && node.states.includes(q[RV])) {
+                query[RV] = q[RV];
+            }
+        }
+
+        // Triggers setState() when query resolves.
+        this.query(query);
+    }
+
+    setNetwork() {
+        // download network & set state
+        const { network_id } = this.props;
+
+        api.getNetwork(network_id).then((response) => {
+            const network = response.json;
+            network.id = network_id;
+
+            this.setState({ network })
+        })
     }
 
     query(query) {
         // console.log('Network::query()', query);
-        const id = this.props.network.id;
+        const id = this.state.network.id;
 
         api.queryNetwork(id, query).then(r => {
             // console.log('Network::query(): ', r)
@@ -138,14 +202,13 @@ export default class Network extends Component {
                 probabilities: r.probabilities,
             })
         })
-
     }
 
     /**
      * Iterate over <Node>'s rendered and retrieve their corners and centers.
      */
     nodeAttrsToState() {
-        const nodenames = getNodeNamesFromNetwork(this.props.network);
+        const nodenames = getNodeNamesFromNetwork(this.state.network);
         const
             node_centers = {},
             node_corners = {};
@@ -209,7 +272,7 @@ export default class Network extends Component {
      */
     onNodeMoved = (RV, x, y) => {
         // console.log(`Network::onNodeMoved('${RV}', ${x}, ${y})`);
-        const network = { ...this.props.network };
+        const network = { ...this.state.network };
         const { network_id } = this.props;
 
         for (const node of network.nodes) {
@@ -233,11 +296,19 @@ export default class Network extends Component {
             q[RV] = state;
         }
 
-        this.query(q);
+        // Update the URL query parameters
+        this.props.history.push({
+            pathname: '',
+            search: "?" + new URLSearchParams({...q}).toString()
+        })
+
+        // Query the network.
+        // Triggers setState() when query resolves.
+        // this.query(q);
     }
 
     renderEdges() {
-        const { network } = this.props;
+        const { network } = this.state;
 
         return network.edges.map(e => {
             const
@@ -257,8 +328,29 @@ export default class Network extends Component {
         })
     }
 
+    renderLoading() {
+        return (
+            <div className="Network">
+                <span>Loading ...</span>
+            </div>
+        )
+    }
+
     render() {
-        const { network } = this.props;
+        // console.log('match:', this.props.match);
+        // console.log('location:', this.props.location);
+        // console.log('qs:', qs.parse(this.props.location.search, { ignoreQueryPrefix: true }));
+
+        // const { network, network_id } = this.props;
+        // const { network_id } = this.props;
+
+        const { network } = this.state;
+
+        if (!network) {
+            // Apparently we haven't downloaded the network yet.
+            return this.renderLoading();
+        }
+
         const {
             first_pass_complete,
             query,

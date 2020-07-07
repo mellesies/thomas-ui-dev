@@ -1,5 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+
 import './index.css';
 
 import App from './App';
@@ -13,7 +20,14 @@ import * as serviceWorker from './serviceWorker';
 api.init(api_config);
 
 ReactDOM.render(
-    <App />,
+    <Router>
+        <Switch>
+            <Route
+                path="/"
+                component={App}
+                />
+        </Switch>
+    </Router>,
     document.getElementById('root')
 );
 
